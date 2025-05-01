@@ -1,6 +1,7 @@
 package tests;
 
 import com.codeborne.selenide.Configuration;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -16,7 +17,7 @@ public class TestPracticeForm {
         Configuration.browserSize = "1920x1080";
         Configuration.baseUrl = "https://demoqa.com";
         Configuration.pageLoadStrategy = "eager";
-        Configuration.holdBrowserOpen = true;
+//        Configuration.holdBrowserOpen = true;
     }
 
     @Test
@@ -66,5 +67,23 @@ public class TestPracticeForm {
 
         // Click 'Submit' button
         $("#submit").click();
+    }
+
+    @AfterAll
+    static void checkModalWindowResults() {
+        // Check modal window to be open
+        $(".modal-content").shouldBe(visible);
+
+        // Check the results after submitting
+        $$("table tbody tr").findBy(text("Student Name")).shouldHave(text("Dmitry Endo"));
+        $$("table tbody tr").findBy(text("Student Email")).shouldHave(text("dmitry@bk.com"));
+        $$("table tbody tr").findBy(text("Gender")).shouldHave(text("Male"));
+        $$("table tbody tr").findBy(text("Mobile")).shouldHave(text("9998554545"));
+        $$("table tbody tr").findBy(text("Date of Birth")).shouldHave(text("01 January,1980"));
+        $$("table tbody tr").findBy(text("Subjects")).shouldHave(text("Maths, Arts, English"));
+        $$("table tbody tr").findBy(text("Hobbies")).shouldHave(text("Sports, Music"));
+        $$("table tbody tr").findBy(text("Picture")).shouldHave(text("avatar.jpg"));
+        $$("table tbody tr").findBy(text("Address")).shouldHave(text("Arbat street"));
+        $$("table tbody tr").findBy(text("State and City")).shouldHave(text("NCR Noida"));
     }
 }
