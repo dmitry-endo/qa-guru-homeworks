@@ -6,8 +6,11 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
+import java.util.Dictionary;
+import java.util.Hashtable;
 
 import static com.codeborne.selenide.Condition.*;
+import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
 
 public class TestPracticeForm {
@@ -21,69 +24,96 @@ public class TestPracticeForm {
     }
 
     @Test
-    void fillPracticeForm() {
+    void fillPracticeFormTest() {
+        // Setting up variables for tests flexibility
+        String firstName = "Dmitry";
+        String lastName = "Endo";
+        String email = "dmitry@bk.com";
+        String gender = "Male";
+        String number = "9998554545";
+        Dictionary<String, String> dateOfBirth = new Hashtable<>();
+        dateOfBirth.put("day", "1");
+        dateOfBirth.put("month", "January");
+        dateOfBirth.put("year", "1980");
+        String[] subjects = {"Maths", "Arts", "English"};
+        String[] hobbies = {"Sports", "Music"};
+        String uploadFileName = "avatar.jpg";
+        String currentAddress = "Arbat street";
+        String state = "NCR";
+        String city = "Noida";
+
         // Relative path for baseUrl
         open("/automation-practice-form");
 
-        // Set basic info
-        $("#firstName").setValue("Dmitry");
-        $("#lastName").setValue("Endo");
-        $("#userEmail").setValue("dmitry@bk.com");
-        $("label[for='gender-radio-1']").shouldBe(visible, enabled).click();
-        $("#userNumber").setValue("9998554545");
+        // Setting up basic info
+        $("#firstName").setValue(firstName);
+        $("#lastName").setValue(lastName);
+        $("#userEmail").setValue(email);
+        $("#genterWrapper").$(byText(gender)).click();
+        $("#userNumber").setValue(number);
 
-        // Choose 'Date of Birth' field by calendar widget
+        // Choosing 'Date of Birth' field by calendar widget
         $("#dateOfBirthInput").click();
-        $(".react-datepicker__month-select").selectOptionByValue("0");
-        $(".react-datepicker__year-select").selectOptionByValue("1980");
+        $(".react-datepicker__month-select")
+                .$(byText(dateOfBirth.get("month"))).click();
+        $(".react-datepicker__year-select")
+                .$(byText(dateOfBirth.get("year"))).click();
         $$("div.react-datepicker__day:not(.react-datepicker__day--outside-month)")
-                .findBy(text("1"))
+                .findBy(text(dateOfBirth.get("day")))
                 .shouldBe(visible)
                 .click();
 
-        // Fill out 'Subjects' field
-        $("#subjectsInput").setValue("math").pressEnter();
-        $("#subjectsInput").setValue("art").pressEnter();
-        $("#subjectsInput").setValue("eng").pressEnter();
+        // Filling out 'Subjects' field
+        $("#subjectsInput").setValue(subjects[0]).pressEnter();
+        $("#subjectsInput").setValue(subjects[1]).pressEnter();
+        $("#subjectsInput").setValue(subjects[2]).pressEnter();
 
-        // Choose checkboxes for 'Hobbies'
-        $("label[for='hobbies-checkbox-1']").shouldBe(visible, enabled).click();
-        $("label[for='hobbies-checkbox-3']").shouldBe(visible, enabled).click();
+        // Choosing checkboxes for 'Hobbies'
+        $("#hobbiesWrapper").$(byText(hobbies[0])).click();
+        $("#hobbiesWrapper").$(byText(hobbies[1])).click();
 
-        // File upload for 'Picture'
-        File imageToUpload = new File("src/test/resources/avatar.jpg");
-        $("#uploadPicture").uploadFile(imageToUpload);
+        // File uploading for 'Picture'
+        $("#uploadPicture").uploadFromClasspath(uploadFileName);
 
-        // Fill out 'Current Address' field
-        $("#currentAddress").setValue("Arbat street");
+        // Filling out 'Current Address' field
+        $("#currentAddress").setValue(currentAddress);
 
-        // Choose state
+        // Choosing state
         $("#state").scrollIntoView(true).click();
-        $$("div[id^='react-select'][class*='option']").findBy(text("NCR")).click();
+        $$("div[id^='react-select'][class*='option']").findBy(text(state)).click();
 
-        // Choose city
+        // Choosing city
         $("#city").scrollIntoView(true).click();
-        $$("div[id^='react-select'][class*='option']").findBy(text("Noida")).click();
+        $$("div[id^='react-select'][class*='option']").findBy(text(city)).click();
 
-        // Click 'Submit' button
+        // Clicking 'Submit' button
         $("#submit").click();
-    }
 
-    @AfterAll
-    static void checkModalWindowResults() {
-        // Check modal window to be open
+        // Checking modal window to be open
         $(".modal-content").shouldBe(visible);
 
-        // Check the results after submitting
-        $$("table tbody tr").findBy(text("Student Name")).shouldHave(text("Dmitry Endo"));
-        $$("table tbody tr").findBy(text("Student Email")).shouldHave(text("dmitry@bk.com"));
-        $$("table tbody tr").findBy(text("Gender")).shouldHave(text("Male"));
-        $$("table tbody tr").findBy(text("Mobile")).shouldHave(text("9998554545"));
-        $$("table tbody tr").findBy(text("Date of Birth")).shouldHave(text("01 January,1980"));
-        $$("table tbody tr").findBy(text("Subjects")).shouldHave(text("Maths, Arts, English"));
-        $$("table tbody tr").findBy(text("Hobbies")).shouldHave(text("Sports, Music"));
-        $$("table tbody tr").findBy(text("Picture")).shouldHave(text("avatar.jpg"));
-        $$("table tbody tr").findBy(text("Address")).shouldHave(text("Arbat street"));
-        $$("table tbody tr").findBy(text("State and City")).shouldHave(text("NCR Noida"));
+        // Variables for combined fields
+        String expectedSubject = String.join(", ", subjects);
+        String expectedHobbies = String.join(", ", hobbies);
+        String fullDate = dateOfBirth.get("day") + " "
+                + dateOfBirth.get("month") + ","
+                + dateOfBirth.get("year");
+
+        // Checking results in modal window after submitting
+        $$("table tbody tr").findBy(text("Student Name"))
+                .shouldHave(text(firstName + " " + lastName));
+        $$("table tbody tr").findBy(text("Student Email")).shouldHave(text(email));
+        $$("table tbody tr").findBy(text("Gender")).shouldHave(text(gender));
+        $$("table tbody tr").findBy(text("Mobile")).shouldHave(text(number));
+        $$("table tbody tr").findBy(text("Date of Birth")).shouldHave(text(fullDate));
+        $$("table tbody tr").findBy(text("Subjects")).shouldHave(text(expectedSubject));
+        $$("table tbody tr").findBy(text("Hobbies")).shouldHave(text(expectedHobbies));
+        $$("table tbody tr").findBy(text("Picture")).shouldHave(text(uploadFileName));
+        $$("table tbody tr").findBy(text("Address")).shouldHave(text(currentAddress));
+        $$("table tbody tr").findBy(text("State and City"))
+                .shouldHave(text(state + " " + city));
+
+        // Clicking 'Close' button for modal window
+        $("#closeLargeModal").click();
     }
 }
