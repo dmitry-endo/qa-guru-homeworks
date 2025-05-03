@@ -4,9 +4,6 @@ import com.codeborne.selenide.Configuration;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.util.Dictionary;
-import java.util.Hashtable;
-
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
@@ -29,10 +26,9 @@ public class TestPracticeForm {
         String email = "dmitry@bk.com";
         String gender = "Male";
         String number = "9998554545";
-        Dictionary<String, String> dateOfBirth = new Hashtable<>();
-        dateOfBirth.put("day", "1");
-        dateOfBirth.put("month", "January");
-        dateOfBirth.put("year", "1980");
+        String day = "30";
+        String month = "January";
+        String year = "1980";
         String[] subjects = {"Maths", "Arts", "English"};
         String[] hobbies = {"Sports", "Music"};
         String uploadFileName = "avatar.jpg";
@@ -52,14 +48,9 @@ public class TestPracticeForm {
 
         // Choosing 'Date of Birth' field by calendar widget
         $("#dateOfBirthInput").click();
-        $(".react-datepicker__month-select")
-                .$(byText(dateOfBirth.get("month"))).click();
-        $(".react-datepicker__year-select")
-                .$(byText(dateOfBirth.get("year"))).click();
-        $$("div.react-datepicker__day:not(.react-datepicker__day--outside-month)")
-                .findBy(text(dateOfBirth.get("day")))
-                .shouldBe(visible)
-                .click();
+        $(".react-datepicker__month-select").selectOption(month);
+        $(".react-datepicker__year-select").selectOption(year);
+        $$("div.react-datepicker__day:not(.react-datepicker__day--outside-month)").findBy(text(day)).click();
 
         // Filling out 'Subjects' field
         $("#subjectsInput").setValue(subjects[0]).pressEnter();
@@ -76,12 +67,10 @@ public class TestPracticeForm {
         // Filling out 'Current Address' field
         $("#currentAddress").setValue(currentAddress);
 
-        // Choosing state
+        // Choosing state and city
         $("#state").scrollIntoView(true).click();
         $$("div[id^='react-select'][class*='option']").findBy(text(state)).click();
-
-        // Choosing city
-        $("#city").scrollIntoView(true).click();
+        $("#city").click();
         $$("div[id^='react-select'][class*='option']").findBy(text(city)).click();
 
         // Clicking 'Submit' button
@@ -91,25 +80,25 @@ public class TestPracticeForm {
         $(".modal-content").shouldBe(visible);
 
         // Variables for combined fields
+        String fullName = firstName + " " + lastName;
         String expectedSubject = String.join(", ", subjects);
         String expectedHobbies = String.join(", ", hobbies);
-        String fullDate = dateOfBirth.get("day") + " "
-                + dateOfBirth.get("month") + ","
-                + dateOfBirth.get("year");
+        String fullDate = day + " " + month + "," + year;
+        String stateAndCity = state + " " + city;
 
         // Checking results in modal window after submitting
-        $$("table tbody tr").findBy(text("Student Name"))
-                .shouldHave(text(firstName + " " + lastName));
-        $$("table tbody tr").findBy(text("Student Email")).shouldHave(text(email));
-        $$("table tbody tr").findBy(text("Gender")).shouldHave(text(gender));
-        $$("table tbody tr").findBy(text("Mobile")).shouldHave(text(number));
-        $$("table tbody tr").findBy(text("Date of Birth")).shouldHave(text(fullDate));
-        $$("table tbody tr").findBy(text("Subjects")).shouldHave(text(expectedSubject));
-        $$("table tbody tr").findBy(text("Hobbies")).shouldHave(text(expectedHobbies));
-        $$("table tbody tr").findBy(text("Picture")).shouldHave(text(uploadFileName));
-        $$("table tbody tr").findBy(text("Address")).shouldHave(text(currentAddress));
-        $$("table tbody tr").findBy(text("State and City"))
-                .shouldHave(text(state + " " + city));
+        // This ensures that each row contains corresponding values
+        // e.g. Student Name row should have full name next to it
+        $(".table-responsive").$(byText("Student Name")).parent().shouldHave(text(fullName));
+        $(".table-responsive").$(byText("Student Email")).parent().shouldHave(text(email));
+        $(".table-responsive").$(byText("Gender")).parent().shouldHave(text(gender));
+        $(".table-responsive").$(byText("Mobile")).parent().shouldHave(text(number));
+        $(".table-responsive").$(byText("Date of Birth")).parent().shouldHave(text(fullDate));
+        $(".table-responsive").$(byText("Subjects")).parent().shouldHave(text(expectedSubject));
+        $(".table-responsive").$(byText("Hobbies")).parent().shouldHave(text(expectedHobbies));
+        $(".table-responsive").$(byText("Picture")).parent().shouldHave(text(uploadFileName));
+        $(".table-responsive").$(byText("Address")).parent().shouldHave(text(currentAddress));
+        $(".table-responsive").$(byText("State and City")).parent().shouldHave(text(stateAndCity));
 
         // Clicking 'Close' button for modal window
         $("#closeLargeModal").click();
