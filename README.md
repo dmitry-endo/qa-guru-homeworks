@@ -1,1 +1,1 @@
-# demoqa-practice-form
+# Repo for QA.GURU homeworks
