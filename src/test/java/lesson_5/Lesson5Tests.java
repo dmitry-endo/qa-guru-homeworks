@@ -19,7 +19,7 @@ public class Lesson5Tests {
     }
 
     @Test
-    void GithubEnterprisePageTest() {
+    void githubEnterprisePageTest() {
         // 1. На главной странице GitHub выберите:
         // Меню -> Solutions -> Enterprize (с помощью команды hover для Solutions).
         // Убедитесь, что загрузилась нужная страница (например, что заголовок: "The AI-powered developer platform.").
@@ -31,24 +31,38 @@ public class Lesson5Tests {
     }
 
     @Test
-    void DragAndDropTest() {
+    void dragAndDropByActionsTest() {
         // 2. Запрограммируйте Drag&Drop с помощью Selenide.actions()
         // - Откройте https://the-internet.herokuapp.com/drag_and_drop
         // - Перенесите прямоугольник А на место В
         // - Проверьте, что прямоугольники действительно поменялись
-        // - В Selenide есть команда $(element).dragAndDrop($(to-element)), проверьте работает ли тест, если использовать её вместо actions()
 
         open("https://the-internet.herokuapp.com/drag_and_drop");
-        // Moving element A to element's B place
+        // Checking that elements have their own places
+        $("#column-a").shouldHave(exactText("A"));
+        $("#column-b").shouldHave(exactText("B"));
+
+        // Moving element A to element's B place by Selenide.actions()
         actions().moveToElement($("#column-a")).clickAndHold().moveToElement($("#column-b")).release().perform();
         // Checking that elements have changed places
         $("#column-a").shouldHave(exactText("B"));
         $("#column-b").shouldHave(exactText("A"));
+    }
 
-        // Example with dragAndDrop() method
-        $("#column-a").dragAndDrop(to("#column-b"));
-        // Checking that elements have changed places
+    @Test
+    void dragAndDropByMethodTest() {
+        // - В Selenide есть команда $(element).dragAndDrop($(to-element)),
+        // проверьте работает ли тест, если использовать её вместо actions()
+
+        open("https://the-internet.herokuapp.com/drag_and_drop");
+        // Checking that elements have their own places
         $("#column-a").shouldHave(exactText("A"));
         $("#column-b").shouldHave(exactText("B"));
+
+        // Moving element A to element's B place by dragAndDrop() method
+        $("#column-a").dragAndDrop(to("#column-b"));
+        // Checking that elements have changed their places
+        $("#column-a").shouldHave(exactText("B"));
+        $("#column-b").shouldHave(exactText("A"));
     }
 }
