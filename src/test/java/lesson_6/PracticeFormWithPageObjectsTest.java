@@ -77,13 +77,13 @@ public class PracticeFormWithPageObjectsTest extends TestBase {
                 .checkResultTableRecord("Student Name", fullName)
                 .checkResultTableRecord("Gender", gender)
                 .checkResultTableRecord("Mobile", userNumber)
-                .checkResultTableRecordIsEmpty("Student Email", email)
-                .checkResultTableRecordIsEmpty("Date of Birth", fullDate)
-                .checkResultTableRecordIsEmpty("Subjects", expectedSubject)
-                .checkResultTableRecordIsEmpty("Hobbies", expectedHobbies)
-                .checkResultTableRecordIsEmpty("Picture", uploadFileName)
-                .checkResultTableRecordIsEmpty("Address", currentAddress)
-                .checkResultTableRecordIsEmpty("State and City", stateAndCity)
+                .checkResultTableRecordIsEmpty("Student Email")
+                .checkResultTableRecordIsEmpty("Date of Birth")
+                .checkResultTableRecordIsEmpty("Subjects")
+                .checkResultTableRecordIsEmpty("Hobbies")
+                .checkResultTableRecordIsEmpty("Picture")
+                .checkResultTableRecordIsEmpty("Address")
+                .checkResultTableRecordIsEmpty("State and City")
                 .clickCloseModal();
     }
 
