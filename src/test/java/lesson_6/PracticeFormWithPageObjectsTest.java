@@ -4,9 +4,17 @@ import org.junit.jupiter.api.Test;
 import pages.PracticeFormPage;
 import tests.TestBase;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
+
 public class PracticeFormWithPageObjectsTest extends TestBase {
 
     PracticeFormPage practiceFormPage = new PracticeFormPage();
+
+    LocalDate today = LocalDate.now();
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM,yyyy", Locale.ENGLISH);
+    String formattedDate = today.format(formatter);
 
     String firstName = "Dmitry";
     String lastName = "Endo";
@@ -77,8 +85,8 @@ public class PracticeFormWithPageObjectsTest extends TestBase {
                 .checkResultTableRecord("Student Name", fullName)
                 .checkResultTableRecord("Gender", gender)
                 .checkResultTableRecord("Mobile", userNumber)
+                .checkResultTableRecord("Date of Birth", formattedDate)
                 .checkResultTableRecordIsEmpty("Student Email")
-                .checkResultTableRecordIsEmpty("Date of Birth")
                 .checkResultTableRecordIsEmpty("Subjects")
                 .checkResultTableRecordIsEmpty("Hobbies")
                 .checkResultTableRecordIsEmpty("Picture")
