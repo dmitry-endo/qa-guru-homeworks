@@ -130,8 +130,8 @@ public class PracticeFormPage {
         return this;
     }
 
-    public PracticeFormPage checkResultTableRecordIsEmpty(String key, String value) {
-        hashTableComponent.negativeCheck(key, value);
+    public PracticeFormPage checkResultTableRecordIsEmpty(String key) {
+        hashTableComponent.negativeCheck(key);
 
         return this;
     }
