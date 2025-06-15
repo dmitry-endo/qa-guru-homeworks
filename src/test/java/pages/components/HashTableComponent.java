@@ -13,6 +13,6 @@ public class HashTableComponent {
 
     public void negativeCheck(String key) {
         $(".table-responsive")
-                .$(byText(key)).parent().shouldBe(empty);
+                .$(byText(key)).sibling(0).shouldBe(empty);
     }
 }
