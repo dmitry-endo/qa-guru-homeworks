@@ -12,10 +12,6 @@ public class PracticeFormWithPageObjectsTest extends TestBase {
 
     PracticeFormPage practiceFormPage = new PracticeFormPage();
 
-    LocalDate today = LocalDate.now();
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM,yyyy", Locale.ENGLISH);
-    String formattedDate = today.format(formatter);
-
     String firstName = "Dmitry";
     String lastName = "Endo";
     String email = "dmitry@bk.com";
@@ -73,6 +69,11 @@ public class PracticeFormWithPageObjectsTest extends TestBase {
 
     @Test
     void minimalPracticeFormTest() {
+
+        // Setting up today's date for test cuz the form always has it set
+        LocalDate today = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM,yyyy", Locale.ENGLISH);
+        String formattedDate = today.format(formatter);
 
         practiceFormPage.openPage()
                 .setFirstName(firstName)
