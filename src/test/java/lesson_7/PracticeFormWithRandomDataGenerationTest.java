@@ -12,10 +12,6 @@ import static utils.RandomUtils.*;
 
 public class PracticeFormWithRandomDataGenerationTest extends TestBase {
 
-    private static final int NUM_OF_SUBJECTS = 3;
-    private static final int NUM_OF_HOBBIES = 2;
-    private static final String UPLOAD_FILE_NAME = "avatar.jpg";
-
     PracticeFormPage practiceFormPage = new PracticeFormPage();
 
     String firstName = getRandomFirstName();
@@ -26,15 +22,14 @@ public class PracticeFormWithRandomDataGenerationTest extends TestBase {
     String day = getRandomBirthDay();
     String month = getRandomBirthMonth();
     String year = getRandomBirthYear();
-    String[] subjects = getRandomSubjects(NUM_OF_SUBJECTS);
-    String[] hobbies = getRandomHobbies(NUM_OF_HOBBIES);
+    String subject = getRandomSubject();
+    String hobby = getRandomHobby();
+    String picture = getRandomPicture();
     String currentAddress = getRandomStreetAddress();
     String state = getRandomState();
     String city = getRandomCity(state);
 
     String fullName = firstName + " " + lastName;
-    String expectedSubject = String.join(", ", subjects);
-    String expectedHobbies = String.join(", ", hobbies);
     String fullDate = String.format("%s %s,%s", day, month, year);
     String stateAndCity = state + " " + city;
 
@@ -48,12 +43,9 @@ public class PracticeFormWithRandomDataGenerationTest extends TestBase {
                 .setGender(gender)
                 .setUserNumber(userNumber)
                 .setDateOfBirth(day, month, year)
-                .setSubject(subjects[0])
-                .setSubject(subjects[1])
-                .setSubject(subjects[2])
-                .setHobby(hobbies[0])
-                .setHobby(hobbies[1])
-                .uploadPicture(UPLOAD_FILE_NAME)
+                .setSubject(subject)
+                .setHobby(hobby)
+                .uploadPicture(picture)
                 .setAddress(currentAddress)
                 .setState(state)
                 .setCity(city)
@@ -65,9 +57,9 @@ public class PracticeFormWithRandomDataGenerationTest extends TestBase {
                 .checkResultTableRecord("Gender", gender)
                 .checkResultTableRecord("Mobile", userNumber)
                 .checkResultTableRecord("Date of Birth", fullDate)
-                .checkResultTableRecord("Subjects", expectedSubject)
-                .checkResultTableRecord("Hobbies", expectedHobbies)
-                .checkResultTableRecord("Picture", UPLOAD_FILE_NAME)
+                .checkResultTableRecord("Subjects", subject)
+                .checkResultTableRecord("Hobbies", hobby)
+                .checkResultTableRecord("Picture", picture)
                 .checkResultTableRecord("Address", currentAddress)
                 .checkResultTableRecord("State and City", stateAndCity)
                 .clickCloseModal();
@@ -109,7 +101,7 @@ public class PracticeFormWithRandomDataGenerationTest extends TestBase {
                 .setFirstName(firstName)
                 .setEmail(email)
                 .setUserNumber(userNumber)
-                .uploadPicture(UPLOAD_FILE_NAME)
+                .uploadPicture(picture)
                 .clickSubmit();
 
         practiceFormPage.checkResultTableHasNotAppeared();
