@@ -22,7 +22,7 @@ public class PracticeFormWithPageObjectsTest extends TestBase {
     String year = "1980";
     String[] subjects = {"Maths", "Arts", "English"};
     String[] hobbies = {"Sports", "Music"};
-    String uploadFileName = "avatar.jpg";
+    String uploadFileName = "avatar1.jpg";
     String currentAddress = "Arbat street";
     String state = "NCR";
     String city = "Noida";
