@@ -1,0 +1,40 @@
+{
+  "totalDrivers": 3,
+  "lastUpdated": "2023-10-25T14:30:00Z",
+  "drivers": [
+    {
+      "id": "DR001",
+      "firstName": "John",
+      "lastName": "Smith",
+      "dateOfBirth": "1985-05-15",
+      "status": "active",
+      "vehicleAssigned": {
+        "make": "Toyota",
+        "model": "Camry",
+        "year": 2022,
+        "licensePlate": "ABC123"
+      }
+    },
+    {
+      "id": "DR002",
+      "firstName": "Maria",
+      "lastName": "Garcia",
+      "dateOfBirth": "1990-11-22",
+      "status": "on_leave",
+      "vehicleAssigned": {
+        "make": "Ford",
+        "model": "Transit",
+        "year": 2021,
+        "licensePlate": "XYZ789"
+      }
+    },
+    {
+      "id": "DR003",
+      "firstName": "Ahmed",
+      "lastName": "Khan",
+      "dateOfBirth": "1988-08-08",
+      "status": "training",
+      "vehicleAssigned": null
+    }
+  ]
+}
