@@ -1,10 +1,6 @@
 package lesson_10;
 
-import com.codeborne.selenide.WebDriverRunner;
-import io.qameta.allure.Attachment;
 import io.qameta.allure.Step;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.*;
@@ -32,9 +28,4 @@ public class WebSteps {
     public void checkIssuesTabName(String issue) {
         $("#issues-tab").shouldHave(text(issue));
     }
-
-//    @Attachment(value = "Screenshot", type = "image/png", fileExtension = "png")
-//    public byte[] takeScreenshot() {
-//        return ((TakesScreenshot)WebDriverRunner.getWebDriver()).getScreenshotAs(OutputType.BYTES);
-//    }
 }
