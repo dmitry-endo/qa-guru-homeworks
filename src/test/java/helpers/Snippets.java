@@ -1,4 +1,4 @@
-package selenide_job_aid;
+package helpers;
 
 import com.codeborne.selenide.*;
 import org.openqa.selenium.*;
