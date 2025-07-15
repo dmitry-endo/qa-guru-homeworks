@@ -1,6 +1,7 @@
 package pages;
 
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Step;
 import pages.components.CalendarComponent;
 import pages.components.HashTableComponent;
 import utils.JavaScriptActions;
@@ -34,6 +35,7 @@ public class PracticeFormPage {
     JavaScriptActions javaScriptActions = new JavaScriptActions();
     HashTableComponent hashTableComponent = new HashTableComponent();
 
+    @Step("Открываем страницу (плюс удаляем баннеры)")
     public PracticeFormPage openPage() {
         open("/automation-practice-form");
         practiceFormTitle.shouldHave(text("Practice Form"));
@@ -42,36 +44,42 @@ public class PracticeFormPage {
         return this;
     }
 
-    public PracticeFormPage setFirstName(String value) {
-        firstNameInput.setValue(value);
+    @Step("Заполняем поле First Name: {firstName}")
+    public PracticeFormPage setFirstName(String firstName) {
+        firstNameInput.setValue(firstName);
 
         return this;
     }
 
-    public PracticeFormPage setLastName(String value) {
-        lastNameInput.setValue(value);
+    @Step("Заполняем поле Last Name: {lastName}")
+    public PracticeFormPage setLastName(String lastName) {
+        lastNameInput.setValue(lastName);
 
         return this;
     }
 
-    public PracticeFormPage setEmail(String value) {
-        userEmailInput.setValue(value);
+    @Step("Заполняем поле Email: {email}")
+    public PracticeFormPage setEmail(String email) {
+        userEmailInput.setValue(email);
 
         return this;
     }
 
-    public PracticeFormPage setGender(String value) {
-        genderWrapper.$(byText(value)).click();
+    @Step("Выбираем радиокнопку Gender: {gender}")
+    public PracticeFormPage setGender(String gender) {
+        genderWrapper.$(byText(gender)).click();
 
         return this;
     }
 
-    public PracticeFormPage setUserNumber(String value) {
-        userNumberInput.setValue(value);
+    @Step("Заполняем поле Mobile: {mobile}")
+    public PracticeFormPage setUserNumber(String mobile) {
+        userNumberInput.setValue(mobile);
 
         return this;
     }
 
+    @Step("Заполняем поле Date of Birth: {day} {month} {year}")
     public PracticeFormPage setDateOfBirth(String day, String month, String year) {
         calendarInput.click();
         calendarComponent.setDate(day, month, year);
@@ -79,44 +87,51 @@ public class PracticeFormPage {
         return this;
     }
 
-    public PracticeFormPage setSubject(String value) {
-        subjectsInput.setValue(value).pressEnter();
+    @Step("Заполняем поле Subjects: {subject}")
+    public PracticeFormPage setSubject(String subject) {
+        subjectsInput.setValue(subject).pressEnter();
 
         return this;
     }
 
-    public PracticeFormPage setHobby(String value) {
-        hobbiesWrapper.$(byText(value)).click();
+    @Step("Выбираем чек-бокс Hobbies: {hobby}")
+    public PracticeFormPage setHobby(String hobby) {
+        hobbiesWrapper.$(byText(hobby)).click();
 
         return this;
     }
 
-    public PracticeFormPage uploadPicture(String value) {
-        uploadPicture.uploadFromClasspath(value);
+    @Step("Загружаем картинку: {picture}")
+    public PracticeFormPage uploadPicture(String picture) {
+        uploadPicture.uploadFromClasspath(picture);
 
         return this;
     }
 
-    public PracticeFormPage setAddress(String value) {
-        currentAddressInput.setValue(value);
+    @Step("Заполняем поле Current Address: {currentAddress}")
+    public PracticeFormPage setAddress(String currentAddress) {
+        currentAddressInput.setValue(currentAddress);
 
         return this;
     }
 
-    public PracticeFormPage setState(String value) {
+    @Step("Выбираем State в выпадающем списке: {state}")
+    public PracticeFormPage setState(String state) {
         selectState.scrollIntoView(true).click();
-        stateCityWrapper.$(byText(value)).click();
+        stateCityWrapper.$(byText(state)).click();
 
         return this;
     }
 
-    public PracticeFormPage setCity(String value) {
+    @Step("Выбираем City в выпадающем списке: {city}")
+    public PracticeFormPage setCity(String city) {
         selectCity.scrollIntoView(true).click();
-        stateCityWrapper.$(byText(value)).click();
+        stateCityWrapper.$(byText(city)).click();
 
         return this;
     }
 
+    @Step("Проверяем, что появилось модальное окно с результатами и содержит соответствующий текст")
     public PracticeFormPage checkResultTableHasAppeared() {
         modalWindow.should(appear);
         modalWindowTitle.shouldHave(text("Thanks for submitting the form"));
@@ -124,26 +139,31 @@ public class PracticeFormPage {
         return this;
     }
 
+    @Step("Проверяем, что в таблице для ключа {key} соответствует значение {value}")
     public PracticeFormPage checkResultTableRecord(String key, String value) {
         hashTableComponent.positiveCheck(key, value);
 
         return this;
     }
 
+    @Step("Проверяем, что в таблице для ключа {key} отсутствует значение")
     public PracticeFormPage checkResultTableRecordIsEmpty(String key) {
         hashTableComponent.negativeCheck(key);
 
         return this;
     }
 
+    @Step("Проверяем, что модальное окно с результатами не появилось")
     public void checkResultTableHasNotAppeared() {
         modalWindow.shouldNot(appear);
     }
 
+    @Step("Нажимаем кнопку Submit")
     public void clickSubmit() {
         submitButton.scrollIntoView(true).click();
     }
 
+    @Step("Нажимаем кнопку Close")
     public void clickCloseModal() {
         closeModalButton.scrollIntoView(true).click();
     }
