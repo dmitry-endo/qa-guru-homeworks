@@ -17,6 +17,7 @@ public class TestBase {
     static void configurationSetup() {
         Configuration.baseUrl = "https://demoqa.com";
         Configuration.pageLoadStrategy = "eager";
+        Configuration.timeout = 10000;
         Configuration.browser = System.getProperty("browserName", "chrome");
         Configuration.browserVersion = System.getProperty("browserVersion", "127.0");
         Configuration.browserSize = System.getProperty("screenResolution", "1920x1080");
